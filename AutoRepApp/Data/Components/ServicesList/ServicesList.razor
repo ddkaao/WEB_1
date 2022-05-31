@@ -1,0 +1,42 @@
+﻿@using AutoRepApp.Data.Models
+@using AutoRepApp.Services
+@inject NavigationManager _navigationManager
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название услуги</th>
+        <th>Цена</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (services != null)
+    {
+       @foreach (var service in services)
+        {
+            <tr  @onclick="()=>toItem(service)">
+                <td>@service.Id</td>
+                <td>@service.NameOfService</td>
+                <td>@service.Price</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+@code{
+    private List<Service>? services;
+    [Inject]
+    private IServicesProvider servicesProvider { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        services = await servicesProvider.GetAll();
+    }
+    public void toItem(Service service)
+    {
+        _navigationManager.NavigateTo($"/Service/{service.Id}");
+    }
+}
+
+

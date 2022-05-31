@@ -1,0 +1,19 @@
+﻿.field {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+}
+
+.serviceBlock {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    width: 200px;
+}
+
+.valueField {
+    width: 400px;
+}
+

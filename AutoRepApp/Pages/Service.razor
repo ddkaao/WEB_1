@@ -1,0 +1,41 @@
+﻿@page "/Service/{ServiceId}"
+@using AutoRepApp.Services
+
+<h3>Информация об услуге</h3>
+@if (CurrentService != null)
+{
+    <div class="serviceBlock">
+        <div class="field">
+            <label class="label">Идентификатор</label> <input class="form-control valueField" type="text" value="@CurrentService.Id" aria-label="Disabled input example" disabled readonly>
+        </div>
+        <div class="field">
+            <label class="label">Название услуги</label> <input class="form-control valueField" type="text" value="@CurrentService.NameOfService" aria-label="Disabled input example" disabled readonly>
+        </div>
+        <div class="field">
+            <label class="label">Цена</label> <input class="form-control valueField" type="text" value="@CurrentService.Price" aria-label="Disabled input example" disabled readonly>
+        </div>
+        <div class="field">
+            <label class="label">Время(дни)</label> <input class="form-control valueField" type="text" value="@CurrentService.Time" aria-label="Disabled input example" disabled readonly>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string ServiceId { get; set; }
+    public List<Data.Models.Service> Services { get; set; }
+    public Data.Models.Service? CurrentService { get; set; }
+    [Inject]
+    private IServicesProvider servicesProvider { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        CurrentService = await servicesProvider.GetOne(Int32.Parse(ServiceId));
+        Services = await servicesProvider.GetAll();
+        Console.WriteLine(CurrentService);
+        base.OnInitialized();
+    }
+}
+
+
+
+

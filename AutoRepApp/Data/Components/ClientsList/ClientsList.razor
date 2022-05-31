@@ -1,0 +1,36 @@
+﻿@using AutoRepApp.Data.Models
+@using AutoRepApp.Services
+@inject NavigationManager _navigationManager
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>ФИО</th>
+        <th>Телефон</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (clients != null)
+    {
+       @foreach (var service in clients)
+        {
+            <tr>
+                <td>@service.Id</td>
+                <td>@service.FullName</td>
+                <td>@service.Phone</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+@code{
+    private List<Client>? clients;
+    [Inject]
+    private IClientProvider clientsProvider { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        clients = await clientsProvider.GetAll();
+    }
+}
